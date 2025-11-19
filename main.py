@@ -6,7 +6,8 @@ import numpy as np
 import os
 import tempfile
 from ml_engine import UpliftMLEngine
-from ui_components import inject_custom_css, display_navbar, display_groww_metric, display_ticker_row, create_sidebar_section
+from ui_components import (inject_custom_css, display_navbar, display_groww_metric, 
+                           display_ticker_row, create_sidebar_section, display_landing_page)
 
 # Try to import FPDF for PDF generation, handle if missing
 try:
@@ -15,18 +16,37 @@ try:
 except ImportError:
     FPDF_AVAILABLE = False
 
-st.set_page_config(
-    page_title="Uplift | Credit Analytics",
-    page_icon="💳",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
+# Initialize session state for page navigation
+if 'page' not in st.session_state:
+    st.session_state['page'] = 'landing'
+
+# Configure page based on current state
+if st.session_state['page'] == 'landing':
+    st.set_page_config(
+        page_title="Uplift | Credit Analytics",
+        page_icon="💳",
+        layout="wide",
+        initial_sidebar_state="collapsed"  # Hide sidebar on landing
+    )
+else:
+    st.set_page_config(
+        page_title="Uplift | Credit Analytics",
+        page_icon="💳",
+        layout="wide",
+        initial_sidebar_state="expanded"  # Show sidebar on dashboard
+    )
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 inject_custom_css()
 
+# ==================== LANDING PAGE ====================
+if st.session_state['page'] == 'landing':
+    display_landing_page()
+    st.stop()  # Prevent rest of app from rendering
+
+# ==================== MAIN DASHBOARD (Everything below only runs after launch) ====================
+
 # FORCE CACHE INVALIDATION
-# CHANGED: Renamed to v4 to force Streamlit to reload the new ml_engine code
 @st.cache_resource
 def get_engine_v4():
     return UpliftMLEngine()
@@ -173,6 +193,9 @@ with st.sidebar:
     st.caption("**Secure Connection**")
     st.caption("**Model:** v7.12 (Optimized)")
     st.caption("**Status:** Operational")
+    st.caption("**Last Update:** 2024-06-15")
+    st.caption("**Contact:** abhinavsinha0806@gmail.com")
+    st.caption("**Developed by:** Abhinav Sinha")
 
 @st.cache_data
 def fetch_profile_data(profile_name):
@@ -310,7 +333,7 @@ elif "Batch Analysis" in page:
             st.error(f"Error processing file: {e}")
 
     else:
-        st.info("👈 Please upload a file from the sidebar to begin.")
+        st.info("Please upload a file from the sidebar to begin.")
         st.markdown("""
         **Sample CSV Format:**
         ```csv
@@ -344,7 +367,7 @@ elif "Applicant Analysis" in page:
         if FPDF_AVAILABLE:
             pdf_bytes = create_credit_memo(selected_profile, result)
             st.download_button(
-                label="📄 Download Credit Report",
+                label="Download Credit Report",
                 data=pdf_bytes,
                 file_name=f"{selected_profile.split()[0]}_Credit_Memo.pdf",
                 mime="application/pdf",
@@ -366,7 +389,7 @@ elif "Applicant Analysis" in page:
     if result['prob_default'] > 0.3: # Show for everyone not perfect, or threshold > 0.3
         st.markdown("""
         <div style='background-color: #F0FDF4; border-left: 4px solid #10B981; padding: 20px; border-radius: 8px; margin-bottom: 24px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);'>
-            <h3 style='color: #065F46; margin-top: 0; font-size: 1.2rem;'>🚀 Steps to Improve Credit Score</h3>
+            <h3 style='color: #065F46; margin-top: 0; font-size: 1.2rem;'>Steps to Improve Credit Score</h3>
         """, unsafe_allow_html=True)
         
         for item in result['action_plan']:
@@ -420,8 +443,8 @@ elif "Applicant Analysis" in page:
             for outlier in result['outliers']:
                 st.warning(f"⚠️ {outlier}")
         else:
-            st.success("✅ No significant outliers detected")
-        st.info(f"📍 Local Economic Risk Level: {result['local_risk']['level']} (PRI: {result['local_risk']['pri_score']:.1f})")
+            st.success("No significant outliers detected")
+        st.info(f"Local Economic Risk Level: {result['local_risk']['level']} (PRI: {result['local_risk']['pri_score']:.1f})")
 
 # ==================== PAGE: UPLIFT AI SIMULATOR ====================
 elif "Uplift AI Simulator" in page:
@@ -461,4 +484,4 @@ elif "Uplift AI Simulator" in page:
 
         st.session_state['run_simulation'] = False
     else:
-        st.info("👈 Adjust parameters in the sidebar and click 'Run Simulation'")
+        st.info("Adjust parameters in the sidebar and click 'Run Simulation'")
