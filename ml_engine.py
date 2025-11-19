@@ -298,25 +298,25 @@ class EnhancedCreditRiskModel:
         
         # Income Analysis
         if income < 35000:
-            plan.append(f"**Increase Income:** Your current income (₹{income:,.0f}) is below the ideal tier. Adding a secondary income source of ₹5k/mo would boost score by ~25 points.")
+            plan.append(f"Increase Income: Your current income (₹{income:,.0f}) is below the ideal tier. Adding a secondary income source of ₹5k/mo would boost score by ~25 points.")
         
         # Volatility Analysis
         if volatility > 8000:
              target = volatility * 0.85
-             plan.append(f"**Stabilize Cashflow:** High income volatility detected. Reduce monthly variance to < ₹{target:,.0f} to demonstrate stability (+40 points).")
+             plan.append(f"Stabilize Cashflow: High income volatility detected. Reduce monthly variance to < ₹{target:,.0f} to demonstrate stability (+40 points).")
         
         # Battery/Digital Footprint
         if battery < 65:
-            plan.append("**Digital Hygiene:** Improve charging consistency. Keep phone charged above 20% overnight to signal higher conscientiousness (+15 points).")
+            plan.append("Digital Hygiene: Improve charging consistency. Keep phone charged above 20% overnight to signal higher conscientiousness (+15 points).")
             
         # Location Stability
         if location < 60:
-             plan.append("**Geo-Stability:** Your location patterns are erratic. Establishing a consistent 'Home' zone between 10 PM - 6 AM improves trust scores (+20 points).")
+             plan.append("Geo-Stability: Your location patterns are erratic. Establishing a consistent 'Home' zone between 10 PM - 6 AM improves trust scores (+20 points).")
              
         # Fallback if already good
         if not plan:
-            plan.append("**Maintain Excellence:** Your profile is strong. Continue current financial habits to build long-term tenure.")
-            plan.append("**Credit Mix:** Consider diversifying with a small secured credit card if not already active.")
+            plan.append("Maintain Excellence: Your profile is strong. Continue current financial habits to build long-term tenure.")
+            plan.append("Credit Mix: Consider diversifying with a small secured credit card if not already active.")
             
         return plan[:3] # Return top 3
 
