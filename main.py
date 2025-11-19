@@ -43,7 +43,8 @@ def plot_clean_line(df, y_col, color):
         height=250,
         xaxis=dict(showgrid=False, showticklabels=False),
         yaxis=dict(showgrid=True, gridcolor='#F1F5F9'),
-        hovermode="x unified"
+        hovermode="x unified",
+        font=dict(color='#2B3674')
     )
     fig.update_traces(line_color=color, line_width=3, marker_size=6)
     return fig
@@ -390,7 +391,9 @@ elif "Applicant Analysis" in page:
         shap_df = pd.DataFrame({'Feature': list(result['shap_values'].keys()), 'Impact': list(result['shap_values'].values())})
         fig = px.bar(shap_df, x='Impact', y='Feature', orientation='h', color='Impact', 
                      color_continuous_scale=['#10B981', '#EF4444'])
-        fig.update_layout(height=300, showlegend=False, paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
+        # FIXED: Added font color explicitly to make text visible
+        fig.update_layout(height=300, showlegend=False, paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
+                          font=dict(color='#2B3674'), xaxis=dict(color='#2B3674'), yaxis=dict(color='#2B3674'))
         st.plotly_chart(fig, use_container_width=True)
 
     with tab3:
@@ -444,14 +447,16 @@ elif "Uplift AI Simulator" in page:
             shap_df = pd.DataFrame({'Feature': list(sim_result['shap_values'].keys()), 'Impact': list(sim_result['shap_values'].values())})
             fig = px.bar(shap_df, x='Impact', y='Feature', orientation='h', color='Impact', 
                          color_continuous_scale=['#10B981', '#EF4444'])
-            fig.update_layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
+            fig.update_layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
+                              font=dict(color='#2B3674'), xaxis=dict(color='#2B3674'), yaxis=dict(color='#2B3674'))
             st.plotly_chart(fig, use_container_width=True)
         
         with col2:
             st.markdown("#### Score Comparison")
             comp_df = pd.DataFrame({'Model': ['Traditional', 'Uplift AI'], 'Score': [sim_result['simulated_cibil'], sim_result['uplift_score']]})
             fig = px.bar(comp_df, x='Model', y='Score', color='Model', color_discrete_sequence=['#94A3B8', '#10B981'])
-            fig.update_layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
+            fig.update_layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
+                              font=dict(color='#2B3674'), xaxis=dict(color='#2B3674'), yaxis=dict(color='#2B3674'))
             st.plotly_chart(fig, use_container_width=True)
 
         st.session_state['run_simulation'] = False
