@@ -191,9 +191,9 @@ with st.sidebar:
     st.markdown("---")
     create_sidebar_section("SYSTEM INFO")
     st.caption("**Secure Connection**")
-    st.caption("**Model:** v7.12 (Optimized)")
+    st.caption("**Model:** v1.00 (Optimized)")
     st.caption("**Status:** Operational")
-    st.caption("**Last Update:** 2024-06-15")
+    st.caption("**Last Update:** 2025-11-20")
     st.caption("**Contact:** abhinavsinha0806@gmail.com")
     st.caption("**Developed by:** Abhinav Sinha")
 
