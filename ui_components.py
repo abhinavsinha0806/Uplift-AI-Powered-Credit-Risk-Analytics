@@ -346,7 +346,7 @@ def display_landing_page():
                     </div>
                     <div>
                         <div style="font-size:0.7rem; opacity:0.7;">EXPIRES</div>
-                        <div>08/24</div>
+                        <div>08/32</div>
                     </div>
                 </div>
                 <div style="position:absolute; top:0; left:0; right:0; bottom:0; background: linear-gradient(125deg, rgba(255,255,255,0) 40%, rgba(255,255,255,0.1) 45%, rgba(255,255,255,0) 50%); border-radius: 24px; pointer-events:none;"></div>
